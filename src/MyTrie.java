@@ -14,30 +14,27 @@ public class MyTrie
 
   /**
    * Adds a new word to the trie.
+   * 
    * @param word
    */
   public void addWord(String word)
   {
     char[] wordArr = word.toLowerCase().toCharArray();
     Node root = this.head;
-    boolean foundNewWord = false;
     for (int i = 0; i < wordArr.length; i++)
     {
       if (!root.children.containsKey(wordArr[i]))
       {
         root.children.put(wordArr[i], new Node(wordArr[i]));
-        foundNewWord = true;
       }
       root = root.children.get(wordArr[i]);
     }
-    if (foundNewWord)
-    {
-      root.children.put(' ', new Node(' '));
-    }
+    root.children.put(' ', new Node(' '));
   }
 
   /**
    * Gets words from the trie that match the prefix specified as argument
+   * 
    * @param prefix
    * @return
    */
@@ -46,9 +43,9 @@ public class MyTrie
     char[] prefixArr = prefix.toLowerCase().toCharArray();
     Node root = this.head;
     ArrayList<String> words = new ArrayList<String>();
-    for(int i=0; i<prefixArr.length; i++)
+    for (int i = 0; i < prefixArr.length; i++)
     {
-      if(!root.children.containsKey(prefixArr[i]))
+      if (!root.children.containsKey(prefixArr[i]))
       {
         return words;
       }
@@ -57,12 +54,12 @@ public class MyTrie
     ArrayList<ArrayList<Character>> paths = new ArrayList<ArrayList<Character>>();
     ArrayList<Character> path = new ArrayList<Character>();
     getWordsTillLeaf(root, path, paths, 0);
-    
-    for(int i = 0; i < paths.size(); i++)
+
+    for (int i = 0; i < paths.size(); i++)
     {
       ArrayList<Character> currentPath = paths.get(i);
       StringBuilder builder = new StringBuilder(prefix);
-      for(int j = 1; j < currentPath.size(); j++)
+      for (int j = 1; j < currentPath.size(); j++)
       {
         builder.append(currentPath.get(j));
       }
@@ -73,10 +70,10 @@ public class MyTrie
 
   private void getWordsTillLeaf(Node root, ArrayList<Character> path, ArrayList<ArrayList<Character>> paths, int index)
   {
-    if(root.getChar() == ' ')
+    if (root.getChar() == ' ')
     {
       ArrayList<Character> list = new ArrayList<Character>();
-      for(int i = 0 ; i<index; i++)
+      for (int i = 0; i < index; i++)
       {
         list.add(path.get(i));
       }
@@ -86,17 +83,17 @@ public class MyTrie
     path.add(index, root.getChar());
     Set<Character> keySet = root.children.keySet();
     Iterator<Character> keys = keySet.iterator();
-    while(keys.hasNext())
+    while (keys.hasNext())
     {
       char key = keys.next();
       /*Recurse on every child*/
-      getWordsTillLeaf(root.children.get(key), path, paths, index+1);
+      getWordsTillLeaf(root.children.get(key), path, paths, index + 1);
     }
   }
 
   private class Node
   {
-    char c;
+    char                     c;
     HashMap<Character, Node> children;
 
     Node(char c)
